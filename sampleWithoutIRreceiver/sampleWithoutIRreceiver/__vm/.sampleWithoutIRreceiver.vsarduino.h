@@ -66,5 +66,4 @@ extern "C" void __cxa_pure_virtual() {;}
 #define portInputRegister(P)
 #define portModeRegister(P)
 #include <sampleWithoutIRreceiver.ino>
-#include <..\..\..\..\..\..\..\Program Files (x86)\Arduino\libraries\Servo\src\Servo.h>
 #endif

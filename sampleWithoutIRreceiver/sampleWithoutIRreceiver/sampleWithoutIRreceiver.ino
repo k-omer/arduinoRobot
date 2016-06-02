@@ -79,7 +79,6 @@ void moveForward()
 	digitalWrite(LEFT_MINUS, LOW);
 }
 
-
 void moveBack()
 {
 	digitalWrite(RIGHT_PLUS, LOW);
@@ -116,6 +115,7 @@ int checkObstacles()
 
 	delay(200);
 
+	//Checks if there is no obstacles in 18 cm
 	if (distance >= 2 && distance <= 18)
 	{
 		moveBack();
@@ -123,6 +123,6 @@ int checkObstacles()
 		turnRight();
 		delay(500);
 	}
-
+	//Checks if there is no corners right and left sides of the car
 	checkCorners();
 }
