@@ -2,25 +2,32 @@
 
 Servo myServo;
 
-const char RIGHT_PLUS = 9;
-const char RIGHT_MINUS = 10;
-const char LEFT_PLUS = 11;
-const char LEFT_MINUS = 12;
+/*
+	The car has 4 wheels, each wheels has his own pin to interact with
+*/
+const char RIGHT_PLUS = 9;//The first wheel is positioned at the front right side of the car
+const char RIGHT_MINUS = 10;//The second wheel is positioned at the back right side of the car
+const char LEFT_PLUS = 11;//The third wheel is positioned at the front left side of the car
+const char LEFT_MINUS = 12;//The fourth wheel is positioned at the back left side of the car
 
-const char PWM_SERVO = 2;
+/*
+	To manipulate the ultrasonic module, we set three pins
+*/
+const char PWM_SERVO = 2; //This is needed to manipulate the position of the servomotor
+int servoPosition = 90; //To set the servomotor at 90°
 
 const char DOUT_TRIGGER = 3;
 const char DIN_ECHO = 4;
 
-const char PIN_IR_UP_RIGHT = 6;
-const char PIN_IR_UP_LEFT = 5;
-const char PIN_IR_DOWN_RIGHT = 7;
-const char PIN_IR_DOWN_LEFT = 8;
-
-int servoPosition = 90;
+/*
+	The car has 4 IR sensors
+*/
+const char IR_SENSOR_TOP_RIGHT = 6;
+const char IR_SENSOR_TOP_LEFT = 5;
+const char IR_SENSOR_BOTTOM_RIGHT = 7;
+const char IR_SENSOR_BOTTOM_LEFT = 8;
 
 void setup() {
-	Serial.begin(9600);
 	pinMode(RIGHT_PLUS, OUTPUT);
 	pinMode(RIGHT_MINUS, OUTPUT);
 	pinMode(LEFT_PLUS, OUTPUT);
@@ -29,8 +36,10 @@ void setup() {
 	pinMode(DOUT_TRIGGER, OUTPUT);
 	pinMode(DIN_ECHO, INPUT);
 
-	pinMode(PIN_IR_UP_RIGHT, INPUT);
+	pinMode(IR_SENSOR_TOP_RIGHT, INPUT);
+	pinMode(IR_SENSOR_TOP_LEFT, INPUT);
 
+	//Initializing the servomotor and setting his initial position at servoPosition (90°)
 	myServo.attach(PWM_SERVO);
 	myServo.write(servoPosition);
 }
@@ -45,12 +54,12 @@ void loop() {
 }
 
 void checkCorners() {
-	if (digitalRead(PIN_IR_UP_RIGHT) == 0)
+	if (digitalRead(IR_SENSOR_TOP_RIGHT) == 0)
 	{
 		turnLeft();
 		delay(500);
 	}
-	else if (digitalRead(PIN_IR_UP_LEFT) == 0)
+	else if (digitalRead(IR_SENSOR_TOP_LEFT) == 0)
 	{
 		turnRight();
 		delay(500);
@@ -92,7 +101,6 @@ void turnRight() {
 	digitalWrite(RIGHT_MINUS, HIGH);
 	digitalWrite(LEFT_PLUS, HIGH);
 	digitalWrite(LEFT_MINUS, LOW);
-
 }
 
 void turnLeft() {
@@ -100,7 +108,6 @@ void turnLeft() {
 	digitalWrite(RIGHT_MINUS, LOW);
 	digitalWrite(LEFT_PLUS, LOW);
 	digitalWrite(LEFT_MINUS, HIGH);
-
 }
 
 int checkObstacles()
@@ -123,6 +130,6 @@ int checkObstacles()
 		turnRight();
 		delay(500);
 	}
-	//Checks if there is no corners right and left sides of the car
+	//Checks if there is no obstacles right and left sides of the car thanks to the IR sensors
 	checkCorners();
 }
